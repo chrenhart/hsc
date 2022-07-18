@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Harmonic Series Calculator and Frequency to Pitch Convertor">
+        <meta name="keywords" content="harmonic series, partials, harmony">
+        <meta name="author" content="Christoph Renhart">
+        <title>ChR's harmonic series calculator</title>
+        <link rel="stylesheet" href="ttgen.css">
+    </head>
+    
+    <body>
+        <div>
+            <div>
+                <h4 class="hminh">Christoph Renhart's</h4>
+                <h1 class="hminh">Harmonic<br />Series<br />Calculator</h1>
+                <div class="spacer30"></div>
+            </div>           
+            <div id="div_basicMode">
+                <label for="in_kammerton">Standard pitch<br />
+                    <i>Kammerton</i>
+                </label><br />               
+                <input type="number" id="in_kammerton" name="in_kammerton" min="400" max="500" value="440"><label>Hz</label><br />             
+                <label for="in_grundfrequenzTemperiert">Tempered fundamental (optional)<br />
+                    <i>Temperierter Grundton (optional)</i>
+                </label><br />            
+                <select id="in_grundfrequenzTemperiert" name="in_grundfrequenzTemperiert" onchange="in_grundfrequenzTemperiert_change()">
+                    <option value="na">Other</option>
+                    <option value="C">C</option>
+                    <option value="C#">C#</option>
+                    <option value="D">D</option>
+                    <option value="D#">D#</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="F#">F#</option>
+                    <option value="G">G</option>
+                    <option value="G#">G#</option>
+                    <option value="A">A</option>
+                    <option value="A#">A#</option>
+                    <option value="B">B</option>
+                </select><br /> 
+                <label for="in_register">Tempered fundamental's octave (optional)<br />
+                    C1 is the lowest C on the piano<br />
+                    <i>Oktavraum des temperierten Grundtons (optional)</i><br />
+                    <i>C1 ist das tiefste C am Klavier</i>
+                </label><br />           
+                <select id="in_register" name="in_register" onchange="in_grundfrequenzTemperiert_change()">
+                    <option value="na">Other</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                </select><br />  
+                <label for="in_grundfrequenz">Fundamental<br/ >
+                    <i>Grundfrequenz</i></label><br />
+                <input type="number" id="in_grundfrequenz" name="in_grundfrequez" min="20" max="10000" value="32.703" onclick="clearTemperedInput()"><label>Hz</label><br />            
+                <label for="in_nPartials">Total number of partials<br />
+                    <i>Anzahl der Teiltöne</i></label><br />
+                <input type="number" id="in_nPartials" name="in_nPartials" min="8" max="128" value="64">
+            </div>
+        </div>
+        <div class="spacer15"></div>
+        <div id="div_toggleMode" onclick="toggleMode()">More options</div>
+        <div class="spacer15"></div>
+        <div id="div_extendedMode">
+            <label class="upper">Convert tone to frequency</label>
+            <div>
+            <div class="spacer15"></div>
+            
+                <label for="conv_pc">Pitch class</label><br />
+                <select id="conv_pc" name="conv_pc" onchange="conv_change()">
+                    <option value="na">Other</option>
+                    <option value="C">C</option>
+                    <option value="C#">C#</option>
+                    <option value="D">D</option>
+                    <option value="D#">D#</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="F#">F#</option>
+                    <option value="G">G</option>
+                    <option value="G#">G#</option>
+                    <option value="A">A</option>
+                    <option value="A#">A#</option>
+                    <option value="B">B</option>
+                </select><br />
+                
+                <label for="conv_register">Octave</label><br />
+                <select id="conv_register" name="conv_register" onchange="conv_change()">
+                    <option value="na">Other</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                </select><br />
+                
+                <label for="conv_plusMinus">Deviation</label><br />
+                <select id="conv_plusMinus" name="conv_plusMinus">
+                    <option value="1">plus</option>
+                    <option value="-1">minus</option>
+                </select>
+                
+                <input type="number" id="conv_cents" name="conv_cents" min="0" max="100" value="0">
+                <label for="conv_cents">Cents</label><br />
+                
+                <label for="conv_isPartialNumber">As partial number</label><br />
+                <input type="number" id="conv_isPartialNumber" name="conv_isPartialNumber" min="1" max="100" value="1">
+            </div>
+        </div>
+        <div>
+            <div class="spacer15"></div>
+            <button onclick="calcHarmonicSeries()">Calculate</button>
+            <div class="spacer30"></div>
+        </div>
+        <div id="result">
+        </div>
+        <script src="ttgen.js"></script>
+        <footer id="siteFooter">
+            Harmonic Series Calculator&emsp;&#124;&emsp;version 1.2 (built 11JUN022)<br/>
+                &copy; 2022 by <a href="https://chrenhart.eu">Christoph Renhart</a>&emsp;&#124;&emsp;<span id="span_hideFooter" onclick="hideFooter()">Hide footer</span>
+        </footer>
+    </body>
+</html>
